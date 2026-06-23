@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ажил горилогчийн анкет — НКДГ</title>
+<style>
+  :root{
+    --blue:#D9E2F3;
+    --green:#E2EFD9;
+    --line:#404040;
+    --ink:#1a1a1a;
+    --accent:#2E7D32;
+  }
+  *{box-sizing:border-box;font-family:Arial, sans-serif;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#ECEFF1;
+    font-family:Arial, sans-serif;
+    color:var(--ink);
+    font-size:13px;
+    line-height:1.45;
+  }
+  .sheet{
+    max-width:880px;
+    margin:18px auto 60px;
+    background:#fff;
+    padding:34px 38px 46px;
+    box-shadow:0 2px 14px rgba(0,0,0,.12);
+  }
+  /* ---------- толгой хэсэг ---------- */
+  .head{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;flex-wrap:wrap;margin-bottom:8px;}
+  .head-logo{display:inline-flex;flex-direction:column;align-items:flex-start;}
+  .notice{
+    border:1.5px dashed #9aa0a6;
+    padding:8px 13px;
+    font-size:10px;
+    line-height:1.4;
+    max-width:440px;
+    color:#333;
+    margin-top:4px;
+  }
+  .notice ol{margin:2px 0 0;padding-left:16px;}
+  .notice li{margin:2px 0;}
+  h1{
+    text-align:center;
+    font-size:17px;
+    letter-spacing:.4px;
+    margin:22px 0 3px;
+  }
+  .rule{border-bottom:2px solid var(--ink);margin-bottom:12px;}
+  .date-line{text-align:right;font-weight:bold;font-size:12.5px;margin:4px 0 8px;letter-spacing:.2px;}
+  .date-line input{width:46px !important;min-width:46px !important;text-align:center;font-weight:bold;padding:0;}
+  /* ---------- хүснэгт ---------- */
+  table{width:100%;border-collapse:collapse;margin-bottom:14px;}
+  th,td{
+    border:1px solid var(--line);
+    padding:4px 7px;
+    vertical-align:middle;
+    font-size:12.5px;
+    text-align:left;
+    font-weight:normal;
+  }
+  .sec-h{
+    background:var(--blue);
+    font-weight:bold;
+    font-size:13px;
+  }
+  .sec-h.green{background:var(--green);}
+  .sub-h{font-weight:bold;background:#fff;}
+  .col-h{background:#fff;font-weight:bold;text-align:center;}
+  .c{text-align:center;}
+  .label{width:38%;}
+  /* ---------- талбарууд ---------- */
+  input[type=text],input[type=number],input[type=email],input[type=date],input[type=tel]{
+    border:none;
+    border-bottom:1px dotted #8a8a8a;
+    background:transparent;
+    font:inherit;
+    padding:2px 3px;
+    width:100%;
+    outline:none;
+  }
+  input:focus,textarea:focus{border-bottom-color:var(--accent);background:#F4FBF4;}
+  textarea{
+    border:none;background:transparent;font:inherit;width:100%;
+    resize:vertical;outline:none;min-height:34px;padding:2px 3px;
+    border-bottom:1px dotted #8a8a8a;
+  }
+  textarea.grow{
+    resize:none;overflow:hidden;min-height:22px;height:22px;
+    line-height:1.35;display:block;
+  }
+  .cell-flex textarea.grow{flex:1;width:auto;min-width:0;}
+  input.inline-input{width:auto;min-width:50px;display:inline-block;}
+  input.w-sm{width:60px;min-width:40px;} input.w-md{width:130px;} input.w-lg{width:230px;}
+  .chk{display:inline-flex;align-items:center;gap:5px;margin-right:16px;white-space:nowrap;}
+  .chk input{width:15px;height:15px;accent-color:var(--accent);}
+  /* хэсэг 2 + зураг зэрэгцээ */
+  .sec2-wrap{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;}
+  .sec2-wrap table{margin-bottom:0;flex:1;min-width:520px;}
+  /* регистрийн нүднүүд */
+  .reg-cells{display:flex;gap:3px;align-items:center;}
+  input.reg-box{
+    width:26px;height:31px;border:1.2px solid var(--line);border-radius:0;
+    text-align:center;font-weight:bold;font-size:13.5px;padding:0;min-width:26px;
+  }
+  input.reg-box:focus{border-color:var(--accent);background:#F4FBF4;}
+  .reg-gap{width:8px;flex:none;}
+  .cell-flex{display:flex;gap:6px;align-items:baseline;}
+  .cell-flex span{white-space:nowrap;}
+  .cell-flex input{flex:1;width:auto;min-width:0;}
+  /* зураг */
+  .photo-row{display:flex;justify-content:flex-end;margin:4px 0 14px;}
+  .photo-box{
+    width:132px;height:170px;border:1.2px solid var(--line);
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    font-size:12px;color:#666;cursor:pointer;position:relative;overflow:hidden;background:#FAFAFA;
+  }
+  .photo-box img{width:100%;height:100%;object-fit:cover;}
+  .photo-box input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+  /* гарын үсэг, төгсгөл */
+  .sign{margin:34px 0 8px;text-align:center;}
+  .thanks{text-align:center;margin-top:26px;}
+  /* илгээх */
+  .submit-bar{max-width:880px;margin:0 auto 70px;text-align:center;}
+  .btn{
+    background:var(--accent);color:#fff;border:none;cursor:pointer;
+    font-size:15px;font-weight:bold;padding:13px 46px;border-radius:6px;
+    box-shadow:0 2px 8px rgba(46,125,50,.35);
+  }
+  .btn:hover{background:#1B5E20;}
+  .demo-tag{
+    position:fixed;top:10px;right:10px;background:#FF8F00;color:#fff;
+    font-size:11px;font-weight:bold;padding:4px 10px;border-radius:4px;z-index:50;
+    box-shadow:0 1px 5px rgba(0,0,0,.25);
+  }
+  /* амжилтын цонх */
+  .overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;
+    align-items:center;justify-content:center;z-index:100;padding:16px;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:#fff;border-radius:10px;max-width:460px;padding:28px 26px;text-align:center;
+  }
+  .modal .ok{font-size:44px;color:var(--accent);}
+  .modal h2{margin:8px 0 6px;font-size:18px;}
+  .modal p{font-size:13px;color:#444;margin:6px 0;}
+  .modal .note{
+    background:#FFF8E1;border:1px solid #FFE082;border-radius:6px;
+    padding:9px 11px;font-size:12px;text-align:left;margin-top:12px;color:#5d4a00;
+  }
+  .modal button{margin-top:16px;background:var(--accent);color:#fff;border:none;
+    padding:9px 30px;border-radius:6px;font-size:14px;cursor:pointer;}
+  .req-warn{color:#C62828;font-size:12px;display:none;margin-top:8px;}
+  /* mobile */
+  .scroll{overflow-x:auto;}
+  .scroll table{min-width:680px;}
+  @media (max-width:640px){
+    .sheet{padding:18px 12px 30px;margin:8px;}
+    .head{flex-direction:column;}
+    .notice{max-width:100%;}
+    h1{font-size:15.5px;}
+  }
+  @media print{
+    @page{size:A4 portrait;margin:9mm;}
+    body{background:#fff;font-size:11px;
+      -webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    .sheet{box-shadow:none;margin:0;max-width:100%;padding:0;}
+    .submit-bar,.demo-tag,.overlay{display:none !important;}
+    /* хүснэгтүүд цаасны өргөнд багтаж шахагдана */
+    .scroll{overflow:visible;}
+    .scroll table{min-width:0 !important;}
+    .sec2-wrap{flex-wrap:nowrap;}
+    .sec2-wrap table{min-width:0 !important;}
+    th,td{font-size:10.5px;padding:3px 5px;}
+    input[type=text],input[type=tel],input[type=email],textarea{font-size:10.5px;}
+    input.reg-box{width:22px;height:26px;min-width:22px;font-size:11px;}
+    .photo-box{width:112px;height:148px;}
+    .photo-box small{display:none;}
+    h1{font-size:16px;margin:16px 0 4px;}
+    .notice{font-size:9px;max-width:380px;}
+    .head-logo img{height:58px;}
+    /* мөр хуудас дамнаж таслагдахгүй */
+    tr{page-break-inside:avoid;}
+    table{page-break-inside:auto;}
+    .sign{margin-top:24px;}
+  }
+</style>
+
+<style>
+.filled-value {
+    display: inline-block;
+    min-width: 100px;
+    border-bottom: 1px solid #404040;
+    padding: 0 2px;
+}
+</style>
+</head>
+<body>
+
+<div class="demo-tag">ДЕМО ХУВИЛБАР</div>
+
+<form id="anket" autocomplete="off">
+<div class="sheet">
+
+  <!-- Толгой -->
+  <div class="head">
+    <div class="head-logo">
+      <img src="data:image/png;base64,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" alt="NCD Group лого">
+    </div>
+    <div class="notice">
+      Энэхүү анкетыг бөглөхдөө та дараах зүйлсийг анхаарна уу. Үүнд:
+      <ol>
+        <li>Та анкетыг бүрэн гүйцэд, үнэн зөв үг товчлохгүй гаргацтай бөглөнө үү.</li>
+        <li>Ажил горилогчийн хувийн мэдээллийн нууцыг хуулийн дагуу хадгалах болно.</li>
+        <li>Зөвхөн эхний шатны ярилцлага болон анкетын сонгон шалгаруулалтанд тэнцсэн хүмүүстэй эргэж холбоо барина.</li>
+        <li>Энэхүү анкет болон хавсаргасан бичиг баримтыг буцаан олгохгүй болно.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h1>АЖИЛ ГОРИЛОГЧИЙН АНКЕТ</h1>
+  <div class="rule"></div>
+
+  <div class="date-line">Анкет бөглөсөн огноо:<input type="text" class="inline-input" id="d-year" placeholder="............">оны<input type="text" class="inline-input w-sm" id="d-month" placeholder="........">сарын<input type="text" class="inline-input w-sm" id="d-day" placeholder="........">өдөр</div>
+
+  <!-- 1. Ажлын байрны мэдээлэл -->
+  <table>
+    <tr><td class="sec-h green" colspan="2">&nbsp;1. Ажлын байрны мэдээлэл</td></tr>
+    <tr>
+      <td class="label">Таны сонирхож буй албан тушаал/ ажлын байр</td>
+      <td><span class="filled-value">@{outputs('Compose')?['position']}</span></td>
+    </tr>
+    <tr>
+      <td class="label">Цалингийн талаарх Таны хүлээлтийн доод хэмжээ</td>
+      <td><span class="filled-value">@{outputs('Compose')?['salary']}</span></td>
+    </tr>
+    <tr>
+      <td class="label">Ажилд орох боломжтой хугацаа</td>
+      <td><span class="filled-value">@{outputs('Compose')?['start_date']}</span></td>
+    </tr>
+    <tr>
+      <td class="label">Ажлын байрны зар хаанаас авсан</td>
+      <td><span class="filled-value">@{outputs('Compose')?['job_source']}</span></td>
+    </tr>
+  </table>
+
+  <!-- 2. Хувийн мэдээлэл + Зураг -->
+  <div class="sec2-wrap">
+  <table>
+    <tr><td class="sec-h" colspan="2">&nbsp;2. Хувийн мэдээлэл</td></tr>
+    <tr>
+      <td style="width:50%"><div class="cell-flex"><span>Ургийн овог:</span><span class="filled-value">@{outputs('Compose')?['urag_ovog']}</span></div></td>
+      <td><div class="cell-flex"><span>Нас:</span><span class="filled-value">@{outputs('Compose')?['age']}</span></div></td>
+    </tr>
+    <tr>
+      <td><div class="cell-flex"><span>Эцэг/эхийн нэр:</span><span class="filled-value">@{outputs('Compose')?['parent_name']}</span></div></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><div class="cell-flex"><span>Өөрийн нэр:</span><span class="filled-value">@{outputs('Compose')?['own_name']}</span></div></td>
+      <td>
+        Хүйс:&nbsp;
+        <label class="chk"><input type="radio" name="gender" value="Эр"> Эр</label>
+        <label class="chk"><input type="radio" name="gender" value="Эм"> Эм</label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Төрсөн он: <span class="filled-value">@{outputs('Compose')?['b_year']}</span>
+        сар <span class="filled-value">@{outputs('Compose')?['b_month']}</span>
+        өдөр <span class="filled-value">@{outputs('Compose')?['b_day']}</span>
+      </td>
+      <td><div class="cell-flex"><span>Төрсөн газар:</span><span class="filled-value">@{outputs('Compose')?['birth_place']}</span></div></td>
+    </tr>
+    <tr>
+      <td>Жолооны ангилал:</td>
+      <td>
+        <label class="chk"><input type="checkbox" name="lic" value="B"> B</label>
+        <label class="chk"><input type="checkbox" name="lic" value="C"> C</label>
+        <label class="chk"><input type="checkbox" name="lic" value="D"> D</label>
+        <label class="chk"><input type="checkbox" name="lic" value="E"> E</label>
+      </td>
+    </tr>
+    <tr>
+      <td>Регистрийн дугаар:</td>
+      <td>
+        <div class="reg-cells" id="regCells">
+          <input type="text" class="reg-box" maxlength="1" aria-label="регистр үсэг 1">
+          <input type="text" class="reg-box" maxlength="1" aria-label="регистр үсэг 2">
+          <span class="reg-gap"></span>
+          <input type="text" class="reg-box" maxlength="1" aria-label="регистр тоо 1">
+          <input type="text" class="reg-box" maxlength="1" aria-label="регистр тоо 2">
+          <input type="text" class="reg-box" maxlength="1" aria-label="регистр тоо 3">
+          <input type="text" class="reg-box" maxlength="1" aria-label="регистр тоо 4">
+          <input type="text" class="reg-box" maxlength="1" aria-label="регистр тоо 5">
+          <input type="text" class="reg-box" maxlength="1" aria-label="регистр тоо 6">
+          <input type="text" class="reg-box" maxlength="1" aria-label="регистр тоо 7">
+          <input type="text" class="reg-box" maxlength="1" aria-label="регистр тоо 8">
+        </div>
+        <input type="hidden" name="register" id="regHidden">
+      </td>
+    </tr>
+  </table>
+
+  <label class="photo-box" id="photoBox">
+    <span id="photoHint">Зураг<br>/4x3/<br><small>дарж оруулна</small></span>
+    <input type="file" accept="image/*" id="photoInput">
+  </label>
+  </div>
+
+  <!-- Хаяг, холбоо барих -->
+  <table>
+    <tr>
+      <td class="label">Иргэний үнэмлэх дээрх гэрийн хаягаа бичнэ үү.</td>
+      <td>
+        <span class="filled-value">@{outputs('Compose')?['addr1_duureg']}</span> дүүрэг
+        <span class="filled-value">@{outputs('Compose')?['addr1_horoo']}</span> -р хороо
+        <span class="filled-value">@{outputs('Compose')?['addr1_horoolol']}</span> хороолол
+        <span class="filled-value">@{outputs('Compose')?['addr1_bair']}</span> байр/гудамж
+        <span class="filled-value">@{outputs('Compose')?['addr1_toot']}</span> тоот
+      </td>
+    </tr>
+    <tr>
+      <td>Хэрэв иргэний үнэмлэх дээрх хаягнаас өөр газарт оршин сууж байгаа бол хаягаа тодорхой бичнэ үү.</td>
+      <td>
+        <span class="filled-value">@{outputs('Compose')?['addr2_duureg']}</span> дүүрэг
+        <span class="filled-value">@{outputs('Compose')?['addr2_horoo']}</span> -р хороо
+        <span class="filled-value">@{outputs('Compose')?['addr2_horoolol']}</span> хороолол
+        <span class="filled-value">@{outputs('Compose')?['addr2_bair']}</span> байр/гудамж
+        <span class="filled-value">@{outputs('Compose')?['addr2_toot']}</span> тоот
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        Холбоо барих утас (өөрийн үүрэн телефон):&nbsp;
+        1. <input type="tel" class="inline-input w-md" name="phone1" required>&nbsp;&nbsp;
+        2. <input type="tel" class="inline-input w-md" name="phone2">
+      </td>
+    </tr>
+  </table>
+
+  <div class="scroll">
+  <table>
+    <tr>
+      <td rowspan="4" class="label" style="width:30%">Яаралтай үед холбоо барьж болох 3 хүний мэдээлэл:</td>
+      <td class="col-h">Таны хэн болох</td>
+      <td class="col-h">Овог нэр</td>
+      <td class="col-h">Утасны дугаар</td>
+    </tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['em1_rel']}</span></td><td><span class="filled-value">@{outputs('Compose')?['em1_name']}</span></td><td><input type="tel" name="em1_phone"></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['em2_rel']}</span></td><td><span class="filled-value">@{outputs('Compose')?['em2_name']}</span></td><td><input type="tel" name="em2_phone"></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['em3_rel']}</span></td><td><span class="filled-value">@{outputs('Compose')?['em3_name']}</span></td><td><input type="tel" name="em3_phone"></td></tr>
+  </table>
+  </div>
+
+  <table>
+    <tr>
+      <td class="label">И-мэйл хаяг:</td>
+      <td><span class="filled-value">@{outputs('Compose')?['email']}</span></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        Таны талаар одоо ажиллаж байгаа байгууллагаас тань лавлаж болох эсэх:&nbsp;&nbsp;
+        <label class="chk"><input type="radio" name="ref_ok" value="болно"> болно</label>
+        <label class="chk"><input type="radio" name="ref_ok" value="болохгүй"> болохгүй</label>
+      </td>
+    </tr>
+  </table>
+
+  <!-- 3. Боловсрол -->
+  <div class="scroll">
+  <table>
+    <tr><td class="sec-h" colspan="7">&nbsp;3. Боловсрол <span style="font-weight:normal">(ЕБС-с эхлэн бичнэ.)</span></td></tr>
+    <tr>
+      <td class="col-h">Сургуулийн нэр</td><td class="col-h">Хаана</td>
+      <td class="col-h">Элссэн огноо</td><td class="col-h">Төгссөн огноо</td>
+      <td class="col-h">Эзэмшсэн мэргэжил</td><td class="col-h">Зэрэг</td><td class="col-h">Голч дүн</td>
+    </tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['edu1_school']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu1_where']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu1_in']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu1_out']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu1_major']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu1_deg']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu1_gpa']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['edu2_school']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu2_where']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu2_in']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu2_out']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu2_major']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu2_deg']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu2_gpa']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['edu3_school']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu3_where']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu3_in']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu3_out']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu3_major']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu3_deg']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu3_gpa']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['edu4_school']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu4_where']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu4_in']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu4_out']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu4_major']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu4_deg']}</span></td><td><span class="filled-value">@{outputs('Compose')?['edu4_gpa']}</span></td></tr>
+  </table>
+  </div>
+
+  <!-- 3.1 -->
+  <div class="scroll">
+  <table>
+    <tr><td class="sub-h" colspan="8">&nbsp;3.1 Мэргэжил дээшлүүлэлт, сургалт дамжаа төгссөн байдал</td></tr>
+    <tr>
+      <td class="col-h">Сургуулийн нэр</td><td class="col-h">Хаана</td>
+      <td class="col-h">Элссэн огноо</td><td class="col-h">Төгссөн огноо</td>
+      <td class="col-h">Мэргэжил</td><td class="col-h">Зэрэг</td><td class="col-h">Голч дүн</td><td class="col-h">Үнэмлэхний дугаар</td>
+    </tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['tr1_school']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr1_where']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr1_in']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr1_out']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr1_major']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr1_deg']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr1_gpa']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr1_cert']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['tr2_school']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr2_where']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr2_in']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr2_out']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr2_major']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr2_deg']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr2_gpa']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tr2_cert']}</span></td></tr>
+  </table>
+  </div>
+
+  <!-- 3.2 -->
+  <div class="scroll">
+  <table>
+    <tr><td class="sub-h" colspan="4">&nbsp;3.2 Дадлага хийсэн байдал</td></tr>
+    <tr>
+      <td class="col-h">Байгууллагын нэр</td><td class="col-h">Салбар нэгж</td>
+      <td class="col-h">Хугацаа</td><td class="col-h">Удирдагчийн нэр, утас</td>
+    </tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['in1_org']}</span></td><td><span class="filled-value">@{outputs('Compose')?['in1_branch']}</span></td><td><span class="filled-value">@{outputs('Compose')?['in1_period']}</span></td><td><span class="filled-value">@{outputs('Compose')?['in1_sup']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['in2_org']}</span></td><td><span class="filled-value">@{outputs('Compose')?['in2_branch']}</span></td><td><span class="filled-value">@{outputs('Compose')?['in2_period']}</span></td><td><span class="filled-value">@{outputs('Compose')?['in2_sup']}</span></td></tr>
+  </table>
+  </div>
+
+  <!-- 4. Ур чадвар -->
+  <div class="scroll">
+  <table>
+    <tr><td class="sec-h" colspan="9">&nbsp;4. Ур чадвар</td></tr>
+    <tr><td class="sub-h" colspan="9">&nbsp;4.1. Компьютер дээр ажиллах чадвар</td></tr>
+    <tr>
+      <td style="width:16%">Программын нэр /<br>Чадварын түвшин</td>
+      <td class="col-h" colspan="5">MS Office</td>
+      <td class="col-h" colspan="3">Мэргэжлийн болон бусад программууд</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td class="col-h"><i>Word</i></td><td class="col-h"><i>Excel</i></td><td class="col-h"><i>Powerpoint</i></td>
+      <td class="col-h"><i>Outlook</i></td><td class="col-h"><i>Project</i></td>
+      <td><span class="filled-value">@{outputs('Compose')?['prog1']}</span></td>
+      <td><span class="filled-value">@{outputs('Compose')?['prog2']}</span></td>
+      <td><span class="filled-value">@{outputs('Compose')?['prog3']}</span></td>
+    </tr>
+    <tr>
+      <td>Сайн</td>
+      <td class="c"><input type="radio" name="sk_word" value="Сайн"></td>
+      <td class="c"><input type="radio" name="sk_excel" value="Сайн"></td>
+      <td class="c"><input type="radio" name="sk_ppt" value="Сайн"></td>
+      <td class="c"><input type="radio" name="sk_outlook" value="Сайн"></td>
+      <td class="c"><input type="radio" name="sk_project" value="Сайн"></td>
+      <td class="c"><input type="radio" name="sk_p1" value="Сайн"></td>
+      <td class="c"><input type="radio" name="sk_p2" value="Сайн"></td>
+      <td class="c"><input type="radio" name="sk_p3" value="Сайн"></td>
+    </tr>
+    <tr>
+      <td>Дунд</td>
+      <td class="c"><input type="radio" name="sk_word" value="Дунд"></td>
+      <td class="c"><input type="radio" name="sk_excel" value="Дунд"></td>
+      <td class="c"><input type="radio" name="sk_ppt" value="Дунд"></td>
+      <td class="c"><input type="radio" name="sk_outlook" value="Дунд"></td>
+      <td class="c"><input type="radio" name="sk_project" value="Дунд"></td>
+      <td class="c"><input type="radio" name="sk_p1" value="Дунд"></td>
+      <td class="c"><input type="radio" name="sk_p2" value="Дунд"></td>
+      <td class="c"><input type="radio" name="sk_p3" value="Дунд"></td>
+    </tr>
+    <tr>
+      <td>Муу</td>
+      <td class="c"><input type="radio" name="sk_word" value="Муу"></td>
+      <td class="c"><input type="radio" name="sk_excel" value="Муу"></td>
+      <td class="c"><input type="radio" name="sk_ppt" value="Муу"></td>
+      <td class="c"><input type="radio" name="sk_outlook" value="Муу"></td>
+      <td class="c"><input type="radio" name="sk_project" value="Муу"></td>
+      <td class="c"><input type="radio" name="sk_p1" value="Муу"></td>
+      <td class="c"><input type="radio" name="sk_p2" value="Муу"></td>
+      <td class="c"><input type="radio" name="sk_p3" value="Муу"></td>
+    </tr>
+  </table>
+  </div>
+
+  <!-- 4.2 -->
+  <div class="scroll">
+  <table>
+    <tr><td class="sub-h" colspan="7">&nbsp;4.2 Гадаад хэлний мэдлэг
+      <span style="font-weight:normal;font-size:11.5px">(Жишээ нь: Англи хэл → Beginner-Elementary-Intermediate-Upper Intermediate-Advanced)</span></td></tr>
+    <tr>
+      <td class="col-h">Хэлний нэр</td><td class="col-h">Бичих</td><td class="col-h">Ярих</td>
+      <td class="col-h">Сонсож ойлгох</td><td class="col-h">Уншиж ойлгох</td>
+      <td class="col-h">Аман болон бичгэн орчуулга хийх эсэх</td>
+      <td class="col-h">Түвшин тогтоох шалгалт өгч байсан бол оноо, огноо?<br>
+        <span style="font-weight:normal;font-style:italic;font-size:11px">Жнь: TOEFL 513 оноо, 2020 онд .. гэх мэт</span></td>
+    </tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['lang1']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang1_w']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang1_s']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang1_l']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang1_r']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang1_tr']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang1_test']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['lang2']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang2_w']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang2_s']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang2_l']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang2_r']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang2_tr']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang2_test']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['lang3']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang3_w']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang3_s']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang3_l']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang3_r']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang3_tr']}</span></td><td><span class="filled-value">@{outputs('Compose')?['lang3_test']}</span></td></tr>
+  </table>
+  </div>
+
+  <!-- 4.3 -->
+  <div class="scroll">
+  <table>
+    <tr><td class="sub-h" colspan="5">&nbsp;4.3 Авъяас чадвар</td></tr>
+    <tr>
+      <td class="col-h">Төрөл</td><td class="col-h">Нэр</td><td class="col-h">Хичээллэсэн жил</td>
+      <td class="col-h">Зэрэг, цол</td><td class="col-h">Амжилт, шагнал</td>
+    </tr>
+    <tr><td>Спорт</td><td><span class="filled-value">@{outputs('Compose')?['tal_sport']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tal_sport_y']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tal_sport_r']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tal_sport_a']}</span></td></tr>
+    <tr><td>Урлаг</td><td><span class="filled-value">@{outputs('Compose')?['tal_art']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tal_art_y']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tal_art_r']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tal_art_a']}</span></td></tr>
+    <tr><td>Бусад</td><td><span class="filled-value">@{outputs('Compose')?['tal_other']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tal_other_y']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tal_other_r']}</span></td><td><span class="filled-value">@{outputs('Compose')?['tal_other_a']}</span></td></tr>
+  </table>
+  </div>
+
+  <!-- 5. Хөдөлмөр эрхлэлт -->
+  <div class="scroll">
+  <table>
+    <tr><td class="sec-h" colspan="9">&nbsp;5. Хөдөлмөр эрхлэлтийн байдал</td></tr>
+    <tr>
+      <td class="col-h" rowspan="3" style="width:20%">Байгууллагын нэр</td>
+      <td class="col-h" colspan="4">Ажилласан хугацаа</td>
+      <td class="col-h" rowspan="3">Албан тушаал</td>
+      <td class="col-h" rowspan="3">Цалингийн хэмжээ</td>
+      <td class="col-h" rowspan="3">Гарах болсон шалтгаан</td>
+      <td class="col-h" rowspan="3">Удирдах ажилтны нэр, холбоо барих утас</td>
+    </tr>
+    <tr>
+      <td class="col-h" colspan="2"><i>орсон</i></td>
+      <td class="col-h" colspan="2"><i>гарсан</i></td>
+    </tr>
+    <tr>
+      <td class="col-h"><i>он</i></td><td class="col-h"><i>сар</i></td>
+      <td class="col-h"><i>он</i></td><td class="col-h"><i>сар</i></td>
+    </tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['job1_org']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job1_iy']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job1_im']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job1_oy']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job1_om']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job1_pos']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job1_sal']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job1_why']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job1_sup']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['job2_org']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job2_iy']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job2_im']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job2_oy']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job2_om']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job2_pos']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job2_sal']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job2_why']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job2_sup']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['job3_org']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job3_iy']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job3_im']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job3_oy']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job3_om']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job3_pos']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job3_sal']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job3_why']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job3_sup']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['job4_org']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job4_iy']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job4_im']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job4_oy']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job4_om']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job4_pos']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job4_sal']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job4_why']}</span></td><td><span class="filled-value">@{outputs('Compose')?['job4_sup']}</span></td></tr>
+    <tr>
+      <td colspan="4">Нэг жилээс дээш хугацаагаар ажилгүй байсан бол шалтгаанаа бичнэ үү?</td>
+      <td colspan="5"><span class="filled-value">@{outputs('Compose')?['gap_reason']}</span></td>
+    </tr>
+  </table>
+  </div>
+
+  <!-- 6. Гэр бүлийн байдал -->
+  <div class="scroll">
+  <table>
+    <tr>
+      <td class="sec-h" colspan="7">&nbsp;6. Гэр бүлийн байдал
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Ам бүлийн тоо: <span class="filled-value">@{outputs('Compose')?['fam_count']}</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        Хүүхдийн тоо: <span class="filled-value">@{outputs('Compose')?['child_count']}</span>
+        <div style="font-weight:normal;font-size:11.5px">(Хамт амьдарч буй гэр бүлийн бүх гишүүдийг бичнэ.)</div>
+      </td>
+    </tr>
+    <tr><td class="sub-h" colspan="7">&nbsp;6.1 Гэр бүлийн гишүүдийн мэдээлэл</td></tr>
+    <tr>
+      <td class="col-h">Таны хэн болох</td><td class="col-h">Овог нэр</td><td class="col-h">Төрсөн огноо</td>
+      <td class="col-h">Нас</td><td class="col-h">Ажилладаг байгууллага</td><td class="col-h">Албан тушаал</td><td class="col-h">Холбоо барих утас</td>
+    </tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['fam1_rel']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam1_name']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam1_dob']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam1_age']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam1_org']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam1_pos']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam1_phone']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['fam2_rel']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam2_name']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam2_dob']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam2_age']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam2_org']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam2_pos']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam2_phone']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['fam3_rel']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam3_name']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam3_dob']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam3_age']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam3_org']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam3_pos']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam3_phone']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['fam4_rel']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam4_name']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam4_dob']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam4_age']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam4_org']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam4_pos']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam4_phone']}</span></td></tr>
+    <tr><td><span class="filled-value">@{outputs('Compose')?['fam5_rel']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam5_name']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam5_dob']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam5_age']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam5_org']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam5_pos']}</span></td><td><span class="filled-value">@{outputs('Compose')?['fam5_phone']}</span></td></tr>
+  </table>
+  </div>
+
+  <!-- 7. Бусад мэдээлэл -->
+  <table>
+    <tr><td class="sec-h" colspan="2">&nbsp;7. Бусад мэдээлэл</td></tr>
+    <tr>
+      <td colspan="2">
+        7.1 Таны хамаатан садан, найз нөхөд "НОМИН КОНСТРАКШН ДЕВЕЛОПМЕНТ ГРУПП" ХХК болон түүний охин компани, барилгын аль нэг салбарт ажилладаг бол мэдээллээ бичнэ үү.<br>
+        <label class="chk"><input type="radio" name="rel_works" value="тийм"> тийм</label>
+        <label class="chk"><input type="radio" name="rel_works" value="үгүй"> үгүй</label>
+        &nbsp;&nbsp; Хэрэв ажилладаг бол Таны хэн болох <span class="filled-value">@{outputs('Compose')?['rel_who']}</span><br><br>
+        Байгууллага <span class="filled-value">@{outputs('Compose')?['rel1_org']}</span>
+        Албан тушаал <span class="filled-value">@{outputs('Compose')?['rel1_pos']}</span>
+        Нэр <span class="filled-value">@{outputs('Compose')?['rel1_name']}</span><br>
+        Байгууллага <span class="filled-value">@{outputs('Compose')?['rel2_org']}</span>
+        Албан тушаал <span class="filled-value">@{outputs('Compose')?['rel2_pos']}</span>
+        Нэр <span class="filled-value">@{outputs('Compose')?['rel2_name']}</span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        7.2 Таны эрүүл мэндийн байдал (Хууч өвчин, харшил зэрэг анхаарах ямар нэгэн зовиур бий юу?)
+        <span class="filled-value">@{outputs('Compose')?['health']}</span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        7.3 Хобби, чөлөөт цагаараа юу хийх дуртай вэ?
+        <span class="filled-value">@{outputs('Compose')?['hobby']}</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">7.4 Таны ажил мэргэжлийнхээ хувьд хамгийн сайн мэддэг зүйл юу вэ?</td>
+      <td><span class="filled-value">@{outputs('Compose')?['best_skill']}</span></td>
+    </tr>
+    <tr>
+      <td class="label">7.5 Та манай компанид орж ажилласанаар ямар үр бүтээмжтэй ажиллах вэ?</td>
+      <td><span class="filled-value">@{outputs('Compose')?['contribution']}</span></td>
+    </tr>
+    <tr>
+      <td class="label">7.6 Та манай компанид хэдэн жил ажиллах төлөвлөгөөтэй байна вэ?</td>
+      <td><span class="filled-value">@{outputs('Compose')?['years_plan']}</span></td>
+    </tr>
+    <tr>
+      <td class="label">Шагнал, урамшуулал?</td>
+      <td>
+        1. Засгийн газрын шагнал
+        <span class="filled-value">@{outputs('Compose')?['award_gov']}</span>
+        2. Байгууллагын шагнал
+        <span class="filled-value">@{outputs('Compose')?['award_org']}</span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        Танд өөр нэмж өгөх мэдээлэл байна уу?
+        <span class="filled-value">@{outputs('Compose')?['extra_info']}</span>
+      </td>
+    </tr>
+  </table>
+
+  <div class="sign">Гарын үсэг: …………………………………………..</div>
+  <div class="thanks">Баярлалаа, Танд амжилт хүсье.</div>
+</div>
+
+<div class="submit-bar">
+  
+  <div class="req-warn" id="reqWarn">Заавал бөглөх талбаруудыг (албан тушаал, нэр, регистр, утас) бөглөнө үү.</div>
+</div>
+</form>
+
+<!-- Амжилтын демо цонх -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="ok">✓</div>
+    <h2>Таны анкет амжилттай илгээгдлээ</h2>
+    <p id="okName"></p>
+    <p>Зөвхөн эхний шатны сонгон шалгаруулалтад тэнцсэн тохиолдолд бид тантай эргэж холбогдоно.</p>
+    <div class="note">
+      <b>ДЕМО горим:</b> Жинхэнэ хувилбарт энэ мэдээлэл яг одоо хяналтын систем рүү автоматаар илгээгдэж, HR-ийн дашбоард дээр "Шинэ анкет" статустайгаар бүртгэгдэж, мэдэгдэл очих байсан.
+    </div>
+    
+  </div>
+</div>
+
+
+</body>
+</html>
